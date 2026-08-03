@@ -2022,12 +2022,80 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
+    const CESAN_TREE_DATA = {
+        name: "Cesan",
+        icon: "fa-solid fa-briefcase",
+        expanded: true,
+        children: [
+            {
+                name: "Empreendimentos gerenciáveis PMO",
+                icon: "fa-solid fa-diagram-project",
+                children: [
+                    { name: "Afonso Cláudio", icon: "fa-solid fa-gears" },
+                    { name: "Água Doce do Norte", icon: "fa-solid fa-gears" },
+                    { name: "Águia Branca", icon: "fa-solid fa-gears" },
+                    { name: "Anchieta", icon: "fa-solid fa-gears" },
+                    { name: "Cariacica", icon: "fa-solid fa-gears" },
+                    { name: "Guarapari", icon: "fa-solid fa-gears" }
+                ]
+            },
+            { name: "Inovação", icon: "fa-solid fa-diagram-project" }
+        ]
+    };
+
+    const IJSN_TREE_DATA = {
+        name: "IJSN",
+        icon: "fa-solid fa-briefcase",
+        expanded: true,
+        children: [
+            {
+                name: "Estudos Socioeconômicos",
+                icon: "fa-solid fa-diagram-project",
+                children: [
+                    { name: "Indicadores de Pobreza e Desigualdade", icon: "fa-solid fa-gears" },
+                    { name: "Pesquisa de Emprego e Renda", icon: "fa-solid fa-gears" }
+                ]
+            },
+            { name: "Geoprocessamento e Cartografia", icon: "fa-solid fa-diagram-project" }
+        ]
+    };
+
+    const DIO_TREE_DATA = {
+        name: "Direção Geral",
+        icon: "fa-solid fa-briefcase",
+        expanded: true,
+        children: [
+            {
+                name: "Planejamento Estratégico Direção Geral",
+                icon: "fa-solid fa-diagram-project",
+                expanded: true,
+                children: [
+                    { name: "Projetos de Gestão Direção Geral", icon: "fa-solid fa-gear" }
+                ]
+            }
+        ]
+    };
+
     let modalSelectedLocation = { plan: 'Realiza +', location: 'Cultura ES' };
 
     function renderModalTree() {
         const container = document.getElementById('modalOndeNoPlanoTree');
         if (!container) return;
         container.innerHTML = '';
+
+        const escritorio = modalEscritorioSelect ? modalEscritorioSelect.value : '';
+        const plano = modalPlanoSelect ? modalPlanoSelect.value : '';
+
+        let targetData = PE_TREE_DATA;
+        if (escritorio === 'Cesan' || plano.includes('Cesan')) {
+            targetData = CESAN_TREE_DATA;
+        } else if (escritorio === 'IJSN' || plano.includes('IJSN')) {
+            targetData = IJSN_TREE_DATA;
+        } else if (escritorio === 'DIO/ES' || plano.includes('DIO')) {
+            targetData = DIO_TREE_DATA;
+        } else {
+            targetData = PE_TREE_DATA;
+        }
 
         function createNodeEl(node, level = 0) {
             const hasChildren = node.children && node.children.length > 0;
@@ -2105,10 +2173,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return wrapper;
         }
 
-        const rootEl = createNodeEl(PE_TREE_DATA, 0);
+        const rootEl = createNodeEl(targetData, 0);
         container.appendChild(rootEl);
 
-        const defaultTarget = container.querySelector('[data-name="Cultura ES"]') || container.querySelector('.plano-tree-row');
+        const defaultTarget = container.querySelector('.plano-tree-row');
         if (defaultTarget) {
             selectRowAndAncestors(defaultTarget, container);
         }
@@ -2138,6 +2206,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalEscritorioSelect) {
         modalEscritorioSelect.addEventListener('change', (e) => {
             updatePlanoOptions(e.target.value, modalPlanoSelect);
+            renderModalTree();
+        });
+    }
+
+    if (modalPlanoSelect) {
+        modalPlanoSelect.addEventListener('change', () => {
+            renderModalTree();
         });
     }
 
