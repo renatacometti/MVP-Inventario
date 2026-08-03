@@ -763,9 +763,7 @@
                                                                 Total Viabilidade: <strong id="evalMediaImplementacao">0</strong>
                                                             </div>
                                                         </div>
-
                                                         <div class="eval-tree-content">
-                                                            <!-- Items de Viabilidade -->
                                                             <div class="eval-tree-row level-3">
                                                                 <span class="row-label">Critérios Orçamentários</span>
                                                                 <span class="row-value">Nota: <strong id="evalNotaOrcamento">0</strong></span>
@@ -782,20 +780,20 @@
                                     </div>
                                 </div>
 
-                                <!-- Seção: Selecionar Pré-projeto -->
+                                <!-- Seção: Selecionar Anteprojeto -->
                                 <div class="pre-projeto-container" style="margin-top: 24px;">
-                                    <!-- Toggle: Selecionar Pré-projeto -->
+                                    <!-- Toggle: Selecionar Anteprojeto -->
                                     <div class="pre-projeto-header-toggle" style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
                                         <label class="toggle-switch">
                                             <input type="checkbox" id="evalSelecionarPreProjeto">
                                             <span class="toggle-slider"></span>
                                         </label>
                                         <label for="evalSelecionarPreProjeto" style="font-weight: 600; font-size: 14px; color: #1e293b; cursor: pointer;">
-                                            Selecionar Pré-projeto
+                                            Selecionar Anteprojeto
                                         </label>
                                     </div>
 
-                                    <!-- Campos de Pré-projeto (Habilitados apenas quando marcado) -->
+                                    <!-- Campos de Anteprojeto (Habilitados apenas quando marcado) -->
                                     <div class="pre-projeto-body disabled-section" id="preProjetoBody">
                                         <div class="form-row-multi" style="margin-bottom: 16px;">
                                             <!-- Campo 1: Planos Disponíveis -->
@@ -823,13 +821,11 @@
                                         <!-- Campo 3: Observações -->
                                         <div class="form-field">
                                             <label for="evalObservacoesPreProjeto" style="font-weight: 600; color: #334155;">Observações</label>
-                                            <textarea id="evalObservacoesPreProjeto" class="form-control" rows="3" placeholder="Digite aqui as observações referentes ao pré-projeto..." disabled style="width: 100%; border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px; font-family: inherit; font-size: 13px; outline: none;"></textarea>
+                                            <textarea id="evalObservacoesPreProjeto" class="form-control" rows="3" placeholder="Digite aqui as observações referentes ao anteprojeto..." disabled style="width: 100%; border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px; font-family: inherit; font-size: 13px; outline: none;"></textarea>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- ABAS ESTRATÉGICAS EXCLUSIVAS DA VISÃO PRÉ-PROJETOS -->
-                                <!-- Aba: Etapas -->
+                                
                                 <div class="tab-content hidden" id="pane-etapas">
                                     <!-- Barra Superior: Exibir Cancelado & Filtros com Botão + -->
                                     <div class="etapas-filter-bar">
@@ -983,6 +979,32 @@
                 <p style="font-size: 13px; color: #64748b; margin-bottom: 12px;">
                     Selecione em qual posição da estrutura do plano você deseja buscar / vincular o projeto existente:
                 </p>
+                
+                <!-- Campo: Escritório -->
+                <div class="form-field" style="margin-bottom: 16px;">
+                    <label for="modalEscritorioSelect" style="font-weight: 600; font-size: 13px; color: #334155; margin-bottom: 6px; display: block;">Escritório</label>
+                    <select id="modalEscritorioSelect" class="form-control" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px 12px; font-size: 13px; outline: none; background: #ffffff; color: #334155;">
+                        <option value="">Selecionar Escritório...</option>
+                        <option value="Cesan">Cesan</option>
+                        <option value="DIO/ES">DIO/ES</option>
+                        <option value="IJSN">IJSN</option>
+                        <option value="PMO-ES">PMO-ES</option>
+                    </select>
+                </div>
+
+                <!-- Campo: Plano -->
+                <div class="form-field" style="margin-bottom: 16px;">
+                    <label for="modalPlanoSelect" style="font-weight: 600; font-size: 13px; color: #334155; margin-bottom: 6px; display: block;">Plano</label>
+                    <select id="modalPlanoSelect" class="form-control" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px 12px; font-size: 13px; outline: none; background: #ffffff; color: #334155;">
+                        <option value="">Selecionar Plano...</option>
+                        <option value="PE 2023-2026">PE 2023-2026</option>
+                        <option value="Realiza +">Realiza +</option>
+                        <option value="Cesan">Cesan</option>
+                        <option value="Direção Geral">Direção Geral</option>
+                        <option value="PCIES">PCIES</option>
+                    </select>
+                </div>
+
                 <div class="onde-no-plano-tree" id="modalOndeNoPlanoTree">
                     <!-- Árvore gerada dinamicamente via JS -->
                 </div>

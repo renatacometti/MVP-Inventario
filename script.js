@@ -1089,6 +1089,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const evalPlanosDisponiveis = document.getElementById('evalPlanosDisponiveis');
     const evalObservacoesPreProjeto = document.getElementById('evalObservacoesPreProjeto');
 
+    const PLANOS_POR_ESCRITORIO = {
+        'PMO-ES': ['PE 2023-2026'],
+        'Cesan': ['Plano Cesan 2026-2030'],
+        'IJSN': ['IJSN 23-26'],
+        'DIO/ES': ['Plano DIO/ES 2023-2026']
+    };
+
+    function updatePlanoOptions(escritorioVal, planoSelectEl, selectedPlanVal = null) {
+        if (!planoSelectEl) return;
+        planoSelectEl.innerHTML = '';
+
+        const planos = PLANOS_POR_ESCRITORIO[escritorioVal] || [];
+
+        if (planos.length === 0) {
+            const opt = document.createElement('option');
+            opt.value = '';
+            opt.textContent = 'Selecionar Plano...';
+            planoSelectEl.appendChild(opt);
+            return;
+        }
+
+        planos.forEach((p) => {
+            const opt = document.createElement('option');
+            opt.value = p;
+            opt.textContent = p;
+            if (selectedPlanVal && selectedPlanVal === p) {
+                opt.selected = true;
+            } else if (!selectedPlanVal && p === planos[0]) {
+                opt.selected = true;
+            }
+            planoSelectEl.appendChild(opt);
+        });
+
+        planoSelectEl.dispatchEvent(new Event('change'));
+    }
+
     if (evalSelecionarPreProjeto) {
         evalSelecionarPreProjeto.addEventListener('change', (e) => {
             const isChecked = e.target.checked;
@@ -1530,7 +1566,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  document.getElementById('evalNotaOrcamento').textContent = proj.evalNotaOrcamento !== undefined ? proj.evalNotaOrcamento.toString().replace('.', ',') : 0;
                  document.getElementById('evalNotaExecucao').textContent = proj.evalNotaExecucao !== undefined ? proj.evalNotaExecucao.toString().replace('.', ',') : 0;
 
-                 // Pré-projeto
+                 // Pré-projeto / Anteprojeto
                  if (document.getElementById('evalSelecionarPreProjeto')) {
                      document.getElementById('evalSelecionarPreProjeto').checked = !!proj.evalSelecionarPreProjeto;
                      document.getElementById('evalSelecionarPreProjeto').dispatchEvent(new Event('change'));
@@ -1762,8 +1798,9 @@ document.addEventListener('DOMContentLoaded', () => {
                  proj.evalNotaInovacao = evalNotaInovacao;
                  proj.evalNotaOrcamento = evalNotaOrcamento;
                  proj.evalNotaExecucao = evalNotaExecucao;
-                 // Pré-projeto
+                 // Pré-projeto / Anteprojeto
                  proj.evalSelecionarPreProjeto = evalSelecionarPreProjeto;
+                 proj.evalEscritorio = document.getElementById('evalEscritorioSelect') ? document.getElementById('evalEscritorioSelect').value : '';
                  proj.evalPlanosDisponiveis = evalPlanosDisponiveis;
                  proj.evalObservacoesPreProjeto = evalObservacoesPreProjeto;
                  proj.evalOndeNoPlano = evalOndeNoPlano;
@@ -2094,6 +2131,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnCloseModalProjetoExistente = document.getElementById('btnCloseModalProjetoExistente');
     const btnCancelModalProjetoExistente = document.getElementById('btnCancelModalProjetoExistente');
     const btnConfirmModalProjetoExistente = document.getElementById('btnConfirmModalProjetoExistente');
+
+    const modalEscritorioSelect = document.getElementById('modalEscritorioSelect');
+    const modalPlanoSelect = document.getElementById('modalPlanoSelect');
+
+    if (modalEscritorioSelect) {
+        modalEscritorioSelect.addEventListener('change', (e) => {
+            updatePlanoOptions(e.target.value, modalPlanoSelect);
+        });
+    }
 
     if (popoverProjetoExistente) {
         popoverProjetoExistente.addEventListener('click', (e) => {
