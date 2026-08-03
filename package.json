@@ -1,0 +1,9 @@
+{
+  "name": "inventario-pmo-es",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema de Gestão de Inventário e Pré-Projetos Avaliados (PMO-ES)",
+  "scripts": {
+    "dev": "npx serve ."
+  }
+}
