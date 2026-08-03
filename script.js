@@ -1950,7 +1950,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             {
                                 name: "Educação, Cultura, Esporte e Lazer",
                                 icon: "fa-solid fa-folder",
-                                expanded: true,
                                 children: [
                                     {
                                         name: "Cultura ES",
@@ -1971,52 +1970,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     { name: "Eixo 2: +Des. com sustentabilidade", icon: "fa-solid fa-diagram-project" },
                     { name: "Eixo 3: +Resultados", icon: "fa-solid fa-diagram-project" }
-                ]
-            },
-            {
-                name: "Cesan",
-                icon: "fa-solid fa-briefcase",
-                children: [
-                    {
-                        name: "Empreendimentos gerenciáveis PMO",
-                        icon: "fa-solid fa-diagram-project",
-                        children: [
-                            { name: "Afonso Cláudio", icon: "fa-solid fa-gears" },
-                            { name: "Água Doce do Norte", icon: "fa-solid fa-gears" },
-                            { name: "Águia Branca", icon: "fa-solid fa-gears" },
-                            { name: "Anchieta", icon: "fa-solid fa-gears" },
-                            { name: "Cariacica", icon: "fa-solid fa-gears" },
-                            { name: "Guarapari", icon: "fa-solid fa-gears" },
-                            { name: "**Teste** Guarapari", icon: "fa-solid fa-gears" }
-                        ]
-                    },
-                    { name: "Inovação", icon: "fa-solid fa-diagram-project" }
-                ]
-            },
-            {
-                name: "Direção Geral",
-                icon: "fa-solid fa-briefcase",
-                children: [
-                    {
-                        name: "Planejamento Estratégico Direção Geral",
-                        icon: "fa-solid fa-diagram-project",
-                        children: [
-                            { name: "Projetos de Gestão Direção Geral", icon: "fa-solid fa-gear" }
-                        ]
-                    }
-                ]
-            },
-            {
-                name: "PCIES",
-                icon: "fa-solid fa-briefcase",
-                children: [
-                    {
-                        name: "Programa Conectividade e Inovação ES",
-                        icon: "fa-solid fa-diagram-project",
-                        children: [
-                            { name: "Expansão de Infraestrutura PCIES", icon: "fa-solid fa-gear" }
-                        ]
-                    }
                 ]
             }
         ]
