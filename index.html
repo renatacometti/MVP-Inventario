@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenPMO - Inventário de Projetos</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- Sidebar Esquerda -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <div class="brand-header">
+                    <span class="brand-title">PMO-ES</span>
+                    <span class="brand-subtitle">PE 2023-2026</span>
+                </div>
+                <a href="#" class="nav-item home-item" title="Página Inicial">
+                    <i class="fa-solid fa-house"></i>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item" title="Legislação / Normas">
+                    <i class="fa-solid fa-gavel"></i>
+                </a>
+                <a href="#" class="nav-item" title="Portfólio">
+                    <i class="fa-solid fa-briefcase"></i>
+                </a>
+                <a href="#" class="nav-item" title="Favoritos">
+                    <i class="fa-solid fa-star"></i>
+                </a>
+                <a href="#" class="nav-item" title="Documentos">
+                    <i class="fa-solid fa-file-lines"></i>
+                </a>
+                <a href="#" class="nav-item" title="Pesquisa">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </a>
+                
+                <!-- ÍCONE: Anteprojeto (Engrenagem com estrelas) -->
+                <a href="#" class="nav-item active inventory-nav" id="navInventoryBtn" title="Anteprojeto">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                      <path d="M11.6,6c-0.2-0.5-0.6-0.8-1-0.8H9.3c-0.5,0-0.9,0.3-1,0.8l-0.3,1.2c-0.3,0.1-0.7,0.4-0.9,0.7l-1.2-0.3c-0.5-0.1-1,0-1.4,0.4l-0.9,0.9C3.3,9.2,3.2,9.7,3.4,10.2l0.4,1.2C3.7,11.7,3.7,12.1,3.7,12.4s0,0.7,0.1,1l-0.4,1.2c-0.2,0.4-0.1,0.9,0.3,1.3l0.9,0.9c0.4,0.4,0.9,0.5,1.4,0.3l1.2-0.3c0.3,0.3,0.6,0.5,0.9,0.7l0.3,1.2c0.2,0.5,0.6,0.8,1,0.8h1.3c0.5,0,0.9-0.3,1-0.8l0.3-1.2c0.3-0.1,0.7-0.4,0.9-0.7l1.2,0.3c0.5,0.1,1,0,1.4-0.4l0.9-0.9c0.4-0.4,0.4-0.9,0.3-1.3l-0.4-1.2c0.1-0.3,0.1-0.7,0.1-1s0-0.7-0.1-1l0.4-1.2c0.2-0.4,0.1-0.9-0.3-1.3l-0.9-0.9c-0.4-0.4-0.9-0.5-1.4-0.3l-1.2,0.3c-0.3-0.3-0.6-0.5-0.9-0.7L11.6,6z M9.9,14.6C8.7,14.6,7.8,13.6,7.8,12.4s1-2.2,2.2-2.2s2.2,1,2.2,2.2S11.1,14.6,9.9,14.6z" transform="scale(0.9) translate(0, 3)"/>
+                      <path d="M19,1l1.1,2.4L22.5,4.5l-2.4,1.1L19,8l-1.1-2.4L15.5,4.5l2.4-1.1L19,1z"/>
+                      <path d="M21,11l0.7,1.6l1.6,0.7l-1.6,0.7L21,15.6l-0.7-1.6l-1.6-0.7l1.6-0.7L21,11z"/>
+                      <path d="M11,2l0.5,1.1l1.1,0.5l-1.1,0.5L11,5.2l-0.5-1.1L9.4,3.6l1.1-0.5L11,2z"/>
+                    </svg>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <button class="collapse-btn" id="collapseBtn" title="Recolher menu">
+                    <i class="fa-solid fa-caret-left"></i>
+                </button>
+                <div class="homologation-seal" title="Ambiente de Homologação">
+                    <div class="seal-inner">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>HOMOLOGAÇÃO</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <div class="main-layout">
+            <!-- Sub-Header / Breadcrumb e Controles Superiores -->
+            <header class="top-header">
+                <div class="header-left">
+                    <div class="pmo-subtitle">PMO-ES</div>
+                    <div class="breadcrumb-nav" id="breadcrumbNav">
+                        <!-- Gerado via JS com base no print -->
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn-action-green" title="Buscar no Inventário" id="btnTopSearch">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <button class="btn-action-icon" title="Favoritar Módulo">
+                        <i class="fa-regular fa-star"></i>
+                    </button>
+                    <button class="btn-action-icon active" title="Visualização em Lista">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <button class="btn-action-icon" title="Visualização em Grade">
+                        <i class="fa-solid fa-border-all"></i>
+                    </button>
+                    <div class="select-per-page">
+                        <select id="itemsPerPage">
+                            <option value="5" selected>5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Visão da Listagem do Inventário -->
+            <main class="content-container" id="viewInventarioList">
+                <!-- Abas Superiores: Elaboração vs Estruturação -->
+                <div class="inventario-main-tabs">
+                    <button type="button" class="inventario-tab-item active" id="tabMainInventario">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                          <path d="M11.6,6c-0.2-0.5-0.6-0.8-1-0.8H9.3c-0.5,0-0.9,0.3-1,0.8l-0.3,1.2c-0.3,0.1-0.7,0.4-0.9,0.7l-1.2-0.3c-0.5-0.1-1,0-1.4,0.4l-0.9,0.9C3.3,9.2,3.2,9.7,3.4,10.2l0.4,1.2C3.7,11.7,3.7,12.1,3.7,12.4s0,0.7,0.1,1l-0.4,1.2c-0.2,0.4-0.1,0.9,0.3,1.3l0.9,0.9c0.4,0.4,0.9,0.5,1.4,0.3l1.2-0.3c0.3,0.3,0.6,0.5,0.9,0.7l0.3,1.2c0.2,0.5,0.6,0.8,1,0.8h1.3c0.5,0,0.9-0.3,1-0.8l0.3-1.2c0.3-0.1,0.7-0.4,0.9-0.7l1.2,0.3c0.5,0.1,1,0,1.4-0.4l0.9-0.9c0.4-0.4,0.4-0.9,0.3-1.3l-0.4-1.2c0.1-0.3,0.1-0.7,0.1-1s0-0.7-0.1-1l0.4-1.2c0.2-0.4,0.1-0.9-0.3-1.3l-0.9-0.9c-0.4-0.4-0.9-0.5-1.4-0.3l-1.2,0.3c-0.3-0.3-0.6-0.5-0.9-0.7L11.6,6z M9.9,14.6C8.7,14.6,7.8,13.6,7.8,12.4s1-2.2,2.2-2.2s2.2,1,2.2,2.2S11.1,14.6,9.9,14.6z" transform="scale(0.9) translate(0, 3)"/>
+                          <path d="M19,1l1.1,2.4L22.5,4.5l-2.4,1.1L19,8l-1.1-2.4L15.5,4.5l2.4-1.1L19,1z"/>
+                          <path d="M21,11l0.7,1.6l1.6,0.7l-1.6,0.7L21,15.6l-0.7-1.6l-1.6-0.7l1.6-0.7L21,11z"/>
+                          <path d="M11,2l0.5,1.1l1.1,0.5l-1.1,0.5L11,5.2l-0.5-1.1L9.4,3.6l1.1-0.5L11,2z"/>
+                        </svg>
+                        Elaboração
+                    </button>
+                    <button type="button" class="inventario-tab-item" id="tabMainEstrategico">
+                        <i class="fa-solid fa-chess-king"></i> Estruturação
+                    </button>
+                </div>
+
+                <!-- Painel 1: Inventário (Estrutura Atual) -->
+                <div id="paneMainInventario">
+                    <!-- Barra de Filtros -->
+                    <div class="filter-bar">
+                        <div class="filter-actions-right">
+                            <div class="exibir-selector">
+                                <span>Exibir</span>
+                                <select id="selectFiltroStatus">
+                                    <option value="todos">Todos</option>
+                                    <option value="ativos">Somente Ativos</option>
+                                    <option value="cancelados">Somente Cancelados</option>
+                                </select>
+                            </div>
+                            <button class="btn-add-top" id="btnQuickAdd" title="Novo Projeto">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Campo de Busca rápida -->
+                    <div class="search-input-wrapper hidden" id="searchBarWrapper">
+                        <input type="text" id="inputSearchProject" placeholder="Digitar nome ou código do projeto...">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    </div>
+
+                    <!-- Listagem de Projetos (Cards) -->
+                    <div class="projects-list" id="projectsList">
+                        <!-- Gerado dinamicamente via JS -->
+                    </div>
+
+                    <!-- Menu de Inclusão (Card grande com sinal de +) -->
+                    <div class="add-project-card" id="addProjectDropArea">
+                        <div class="plus-icon-container" id="addProjectTrigger">
+                            <i class="fa-solid fa-plus"></i>
+                            <div class="add-project-dropdown-menu" id="addProjectMenu">
+                                <div class="add-project-dropdown-item" id="popoverNovo">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="color: #64748b;">
+                                      <path d="M11.6,6c-0.2-0.5-0.6-0.8-1-0.8H9.3c-0.5,0-0.9,0.3-1,0.8l-0.3,1.2c-0.3,0.1-0.7,0.4-0.9,0.7l-1.2-0.3c-0.5-0.1-1,0-1.4,0.4l-0.9,0.9C3.3,9.2,3.2,9.7,3.4,10.2l0.4,1.2C3.7,11.7,3.7,12.1,3.7,12.4s0,0.7,0.1,1l-0.4,1.2c-0.2,0.4-0.1,0.9,0.3,1.3l0.9,0.9c0.4,0.4,0.9,0.5,1.4,0.3l1.2-0.3c0.3,0.3,0.6,0.5,0.9,0.7l0.3,1.2c0.2,0.5,0.6,0.8,1,0.8h1.3c0.5,0,0.9-0.3,1-0.8l0.3-1.2c0.3-0.1,0.7-0.4,0.9-0.7l1.2,0.3c0.5,0.1,1,0,1.4-0.4l0.9-0.9c0.4-0.4,0.4-0.9,0.3-1.3l-0.4-1.2c0.1-0.3,0.1-0.7,0.1-1s0-0.7-0.1-1l0.4-1.2c0.2-0.4,0.1-0.9-0.3-1.3l-0.9-0.9c-0.4-0.4-0.9-0.5-1.4-0.3l-1.2,0.3c-0.3-0.3-0.6-0.5-0.9-0.7L11.6,6z M9.9,14.6C8.7,14.6,7.8,13.6,7.8,12.4s1-2.2,2.2-2.2s2.2,1,2.2,2.2S11.1,14.6,9.9,14.6z" transform="scale(0.9) translate(0, 3)"/>
+                                      <path d="M19,1l1.1,2.4L22.5,4.5l-2.4,1.1L19,8l-1.1-2.4L15.5,4.5l2.4-1.1L19,1z"/>
+                                      <path d="M21,11l0.7,1.6l1.6,0.7l-1.6,0.7L21,15.6l-0.7-1.6l-1.6-0.7l1.6-0.7L21,11z"/>
+                                      <path d="M11,2l0.5,1.1l1.1,0.5l-1.1,0.5L11,5.2l-0.5-1.1L9.4,3.6l1.1-0.5L11,2z"/>
+                                    </svg>
+                                    <span>Novo</span>
+                                </div>
+                                <div class="add-project-dropdown-item" id="popoverProjetoExistente">
+                                    <i class="fa-solid fa-briefcase"></i>
+                                    <span>Projeto Existente</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Paginação -->
+                    <div class="pagination-container">
+                        <button class="page-btn" id="firstPageBtn" disabled><i class="fa-solid fa-angles-left"></i></button>
+                        <button class="page-btn" id="prevPageBtn" disabled><i class="fa-solid fa-angle-left"></i></button>
+                        <div class="page-selector">
+                            <select id="currentPageSelect">
+                                <option value="1">1 of 1</option>
+                            </select>
+                        </div>
+                        <button class="page-btn" id="nextPageBtn" disabled><i class="fa-solid fa-angle-right"></i></button>
+                        <button class="page-btn" id="lastPageBtn" disabled><i class="fa-solid fa-angles-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Painel 2: Projeto Estratégico (Nova Aba) -->
+                <div id="paneMainEstrategico" class="hidden">
+                    <div class="strategic-projects-container">
+
+                        <!-- Tabela de Projetos Estratégicos -->
+                        <div class="strategic-table-wrapper">
+                            <div class="strategic-table-header">
+                                <h3><i class="fa-solid fa-list-check" style="color: #0d9488; margin-right: 8px;"></i> Pré Projetos Avaliados</h3>
+                            </div>
+                            <table class="strategic-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nome do Projeto</th>
+                                        <th>Órgão</th>
+                                        <th>Plano / Eixo Estratégico</th>
+                                        <th>Status</th>
+                                        <th style="text-align: right;">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="strategicProjectsTableBody">
+                                    <!-- Renderizado via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Visão de Cadastro: Novo Projeto (Página inteira) -->
+            <main class="content-container hidden" id="viewNovoProjeto">
+                <form id="formNovoProjetoPage">
+                    <div class="section-card">
+                        <!-- Barra de Abas (Navegação Inventário) -->
+                        <div class="form-tabs-bar" id="tabsBarInventario">
+                            <button type="button" class="tab-item active" data-tab="pane-properties">Propriedades</button>
+                            <button type="button" class="tab-item" data-tab="pane-relevance">Relevância</button>
+                            <button type="button" class="tab-item" data-tab="pane-feasibility">Viabilidade</button>
+                            <button type="button" class="tab-item" data-tab="pane-evaluation">Avaliação</button>
+                        </div>
+
+                        <!-- Barra de Abas (Navegação Projeto Estratégico / Pré-Projeto) -->
+                        <div class="form-tabs-bar hidden" id="tabsBarEstrategico">
+                            <button type="button" class="tab-item active" data-tab="pane-properties">Propriedades</button>
+                            <button type="button" class="tab-item" data-tab="pane-etapas">Etapas</button>
+                            <button type="button" class="tab-item" data-tab="pane-partes-interessadas">Partes interessadas e permissões</button>
+                            <button type="button" class="tab-item" data-tab="pane-centros-custo">Centros de Custo</button>
+                            <button type="button" class="tab-item" data-tab="pane-indicadores">Indicadores</button>
+                            <button type="button" class="tab-item" data-tab="pane-linhas-base">Linhas de base</button>
+                            <button type="button" class="tab-item" data-tab="pane-riscos">Riscos</button>
+                            <button type="button" class="tab-item" data-tab="pane-ocorrencias">Ocorrências</button>
+                            <button type="button" class="tab-item" data-tab="pane-processos">Processos</button>
+                            <button type="button" class="tab-item" data-tab="pane-diario">Diário</button>
+                        </div>
+
+                        <div class="section-body">
+                            <!-- Aba 1: Propriedades -->
+                            <div class="tab-content" id="pane-properties">
+                                <!-- Nome -->
+                                <div class="form-field">
+                                    <label for="nomeProjeto">
+                                        Nome <span class="req">*</span>
+                                        <span class="help-circle" title="Nome resumido do projeto">?</span>
+                                    </label>
+                                    <input type="text" id="nomeProjeto" required placeholder="">
+                                </div>
+
+                                <!-- Nome completo -->
+                                <div class="form-field">
+                                    <label for="nomeCompletoProjeto">
+                                        Nome completo <span class="req">*</span>
+                                        <span class="help-circle" title="Nome completo do projeto">?</span>
+                                    </label>
+                                    <input type="text" id="nomeCompletoProjeto" placeholder="">
+                                </div>
+
+                                <!-- Row de Status e Órgão -->
+                                <div class="form-row-multi">
+                                    <div class="form-field col-6">
+                                        <label for="statusProjeto">Status <span class="req">*</span></label>
+                                        <select id="statusProjeto" disabled>
+                                            <option value="Elaboração" selected>Elaboração</option>
+                                            <option value="Estruturação">Estruturação</option>
+                                            <option value="Planejamento">Planejamento</option>
+                                            <option value="Em Andamento">Em Andamento</option>
+                                            <option value="Cancelado">Cancelado</option>
+                                            <option value="Concluído">Concluído</option>
+                                        </select>
+                                    </div>
+                                     <div class="form-field col-6">
+                                         <label for="orgaoProjeto">Órgão</label>
+                                         <select id="orgaoProjeto">
+                                             <option value="">Selecionar Órgão...</option>
+                                             <option value="ADERES">ADERES</option>
+                                             <option value="APEES">APEES</option>
+                                             <option value="BANESTES">BANESTES</option>
+                                             <option value="CARMELIA">CARMELIA</option>
+                                             <option value="CBMES">CBMES</option>
+                                             <option value="CEASA">CEASA</option>
+                                             <option value="CETURB">CETURB</option>
+                                             <option value="DETRAN">DETRAN</option>
+                                             <option value="FAMES">FAMES</option>
+                                             <option value="FAPES">FAPES</option>
+                                             <option value="IASES">IASES</option>
+                                             <option value="SEAG" selected>SEAG</option>
+                                             <option value="SECONT">SECONT</option>
+                                             <option value="SECULT">SECULT</option>
+                                             <option value="SEP">SEP</option>
+                                             <option value="SESP">SESP</option>
+                                             <option value="SETADES">SETADES</option>
+                                         </select>
+                                     </div>
+                                </div>
+
+                                <!-- Justificativa -->
+                                <div class="form-field strategic-prop-field">
+                                    <label for="propJustificativa">
+                                        Justificativa <span class="req">*</span>
+                                        <span class="help-circle" title="Justificativa da necessidade do projeto">?</span>
+                                    </label>
+                                    <textarea id="propJustificativa" rows="3" placeholder=""></textarea>
+                                </div>
+
+                                <!-- Desafios -->
+                                <div class="form-field strategic-prop-field">
+                                    <label for="propDesafios">
+                                        Desafios
+                                        <span class="help-circle" title="Principais desafios a serem superados">?</span>
+                                    </label>
+                                    <textarea id="propDesafios" rows="3" placeholder=""></textarea>
+                                </div>
+
+                                <!-- Objetivo (s) -->
+                                <div class="form-field strategic-prop-field">
+                                    <label for="propObjetivos">
+                                        Objetivo (s) <span class="req">*</span>
+                                        <span class="help-circle" title="Objetivo(s) principal(is) do projeto">?</span>
+                                    </label>
+                                    <textarea id="propObjetivos" rows="3" placeholder=""></textarea>
+                                </div>
+
+                                <!-- Escopo -->
+                                <div class="form-field strategic-prop-field">
+                                    <label for="propEscopo">
+                                        Escopo <span class="req">*</span>
+                                        <span class="help-circle" title="Escopo detalhado do projeto">?</span>
+                                    </label>
+                                    <textarea id="propEscopo" rows="3" placeholder=""></textarea>
+                                </div>
+
+                                <!-- Público-alvo -->
+                                <div class="form-field strategic-prop-field">
+                                    <label for="propPublicoAlvo">
+                                        Público-alvo <span class="req">*</span>
+                                        <span class="help-circle" title="Público-alvo beneficiado pelo projeto">?</span>
+                                    </label>
+                                    <textarea id="propPublicoAlvo" rows="3" placeholder=""></textarea>
+                                </div>
+
+                                <!-- Descrição -->
+                                <div class="form-field strategic-prop-field">
+                                    <label for="propDescricao">
+                                        Descrição
+                                        <span class="help-circle" title="Descrição detalhada do projeto">?</span>
+                                    </label>
+                                    <textarea id="propDescricao" rows="3" placeholder=""></textarea>
+                                </div>
+
+                                <!-- Premissas -->
+                                <div class="form-field strategic-prop-field">
+                                    <label for="propPremissas">
+                                        Premissas <span class="req">*</span>
+                                        <span class="help-circle" title="Premissas assumidas para o projeto">?</span>
+                                    </label>
+                                    <textarea id="propPremissas" rows="3" placeholder=""></textarea>
+                                </div>
+
+                                <!-- Restrições -->
+                                <div class="form-field strategic-prop-field">
+                                    <label for="propRestricoes">
+                                        Restrições <span class="req">*</span>
+                                        <span class="help-circle" title="Restrições impostas ao projeto">?</span>
+                                    </label>
+                                    <textarea id="propRestricoes" rows="3" placeholder=""></textarea>
+                                </div>
+
+                                <!-- Previsão de conclusão -->
+                                <div class="form-row-multi standard-prop-field">
+                                    <div class="form-field col-6">
+                                        <label for="dataFimProjeto">
+                                            Previsão de conclusão
+                                            <span class="help-circle" title="Previsão de conclusão no formato Mês/Ano">?</span>
+                                        </label>
+                                        <input type="month" id="dataFimProjeto">
+                                    </div>
+                                    <div class="col-6"></div>
+                                </div>
+
+                                <!-- Entregas previstas -->
+                                <div class="deliveries-wrapper standard-prop-field">
+                                    <label class="deliveries-label">
+                                        Entregas previstas
+                                        <span class="help-circle" title="Entregas estimadas para o ciclo de vida do projeto">?</span>
+                                    </label>
+                                    <div class="deliveries-list" id="deliveriesList">
+                                        <!-- Injetados dinamente via JS -->
+                                        <div class="delivery-add-card" id="btnAddNewDelivery">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Aba 2: Relevância Estratégica -->
+                            <div class="tab-content hidden" id="pane-relevance">
+                                
+                                <!-- Agrupamento 1: Alinhamento Estratégico -->
+                                <div class="accordion-group">
+                                    <div class="accordion-header">
+                                        <i class="fa-solid fa-angle-down accordion-icon"></i>
+                                        <span>ALINHAMENTO ESTRATÉGICO</span>
+                                    </div>
+                                    <div class="accordion-body">
+                                        <!-- Desafio Estratégico Header -->
+                                        <div style="margin-bottom: 12px;">
+                                            <label class="relevance-filter-label">Desafio Estratégico</label>
+                                        </div>
+                                        
+                                        <!-- Container de Cards de Desafios Selecionados -->
+                                        <div class="deliveries-list" id="selectedChallengesContainer" style="margin-bottom: 24px;">
+                                            <!-- Cards gerados via JS -->
+                                             <div class="delivery-add-card" id="btnAddNewChallenge" style="position: relative; overflow: visible;">
+                                                 <i class="fa-solid fa-plus"></i>
+                                                 <!-- Menu customizado de adição de desafios -->
+                                                 <div class="ods-menu-dropdown desafio-menu-dropdown hidden" id="desafioAddDropdown" style="top: 25%; left: 55%; right: auto; min-width: 280px; max-height: 250px; overflow-y: auto; text-align: left; z-index: 100;">
+                                                     <!-- Options inseridas via JS -->
+                                                 </div>
+                                             </div>
+                                        </div>
+                                        <!-- Seleção de ODS -->
+                                        <div class="deliveries-wrapper" style="margin-top: 10px;">
+                                            <label class="deliveries-label">
+                                                Objetivos de Desenvolvimento Sustentável (ODS)
+                                                <span class="help-circle" title="Objetivos de Desenvolvimento Sustentável selecionados para este projeto">?</span>
+                                            </label>
+                                            <div class="deliveries-list" id="selectedODSContainer" style="margin-bottom: 24px;">
+                                                <!-- Cards gerados via JS -->
+                                                <div class="delivery-add-card" id="btnAddNewODS" style="position: relative; overflow: visible;">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                    <!-- Menu customizado de adição -->
+                                                    <div class="ods-menu-dropdown desafio-menu-dropdown hidden" id="odsAddDropdown" style="top: 25%; left: 55%; right: auto; min-width: 220px; max-height: 250px; overflow-y: auto; text-align: left; z-index: 100;">
+                                                        <!-- Options inseridas via JS -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Atende Proposta (Combobox Multiseleção) -->
+                                        <div class="form-field">
+                                            <label>Atende Proposta</label>
+                                            <div class="custom-multiselect" id="filterAtendeProposta">
+                                                <div class="select-box">
+                                                    <span class="selected-text">Selecionar...</span>
+                                                    <i class="fa-solid fa-chevron-down"></i>
+                                                </div>
+                                                <div class="checkboxes-dropdown hidden">
+                                                    <label><input type="checkbox" value="Programa de Governo"> Programa de Governo</label>
+                                                    <label><input type="checkbox" value="Audiências Públicas"> Audiências Públicas</label>
+                                                    <label><input type="checkbox" value="Monitoramento G1"> Monitoramento G1</label>
+                                                    <label><input type="checkbox" value="PIP"> PIP</label>
+                                                    <label><input type="checkbox" value="ES 500 anos"> ES 500 anos</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Agrupamento 2: Criticidade -->
+                                <div class="accordion-group">
+                                    <div class="accordion-header">
+                                        <i class="fa-solid fa-angle-down accordion-icon"></i>
+                                        <span>CRITICIDADE</span>
+                                    </div>
+                                    <div class="accordion-body">
+                                        <div class="form-field">
+                                            <label for="relevanciaCriticidade">Grau</label>
+                                            <select id="relevanciaCriticidade">
+                                                <option value="">Selecionar Criticidade...</option>
+                                                <option value="1. Alto - Situação crítica, necessita ação imediata.">1. Alto - Situação crítica, necessita ação imediata.</option>
+                                                <option value="2. Moderado - Situação grave, pois há risco de piora de indicadores sociais e econômicos em 2023">2. Moderado - Situação grave, pois há risco de piora de indicadores sociais e econômicos em 2023</option>
+                                                <option value="3. Baixo - Situação de baixa urgência, se nada for feito a tendência é que nada mude em relação ao cenário atual.">3. Baixo - Situação de baixa urgência, se nada for feito a tendência é que nada mude em relação ao cenário atual.</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Agrupamento 3: RDS - REDUÇÃO DE DESIGUALDADES SOCIAIS -->
+                                <div class="accordion-group">
+                                    <div class="accordion-header">
+                                        <i class="fa-solid fa-angle-down accordion-icon"></i>
+                                        <span>RDS - REDUÇÃO DE DESIGUALDADES SOCIAIS</span>
+                                    </div>
+                                    <div class="accordion-body">
+                                        <!-- Redução Desigualdades -->
+                                        <div class="form-field">
+                                            <label for="relevanciaReducaoDesigualdade">Foco em RDS</label>
+                                            <select id="relevanciaReducaoDesigualdade">
+                                                <option value="">Selecionar...</option>
+                                                <option value="1. Alto - O escopo projeto está integralmente direcionado a redução das desigualdades.">1. Alto - O escopo projeto está integralmente direcionado a redução das desigualdades.</option>
+                                                <option value="2. Moderado - O escopo projeto está parcialmente direcionado a redução das desigualdades.">2. Moderado - O escopo projeto está parcialmente direcionado a redução das desigualdades.</option>
+                                                <option value="3. Baixo - O projeto impacta indiretamente a população em vulnerabilidade social.">3. Baixo - O projeto impacta indiretamente a população em vulnerabilidade social.</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Atende programa de RDS -->
+                                        <div class="toggle-field">
+                                            <label class="switch">
+                                                <input type="checkbox" id="relevanciaAgendaMulher" value="Sim">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <span class="toggle-label">Atende programa de RDS</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Agrupamento 4: RDR - REDUÇÃO DE DESIGUALDADES REGIONAIS -->
+                                <div class="accordion-group">
+                                    <div class="accordion-header">
+                                        <i class="fa-solid fa-angle-down accordion-icon"></i>
+                                        <span>RDR - REDUÇÃO DE DESIGUALDADES REGIONAIS</span>
+                                    </div>
+                                    <div class="accordion-body">
+                                        <!-- Foco em RDR -->
+                                        <div class="form-field">
+                                            <label for="relevanciaReducaoRegional">Foco em RDR</label>
+                                            <select id="relevanciaReducaoRegional">
+                                                <option value="">Selecionar...</option>
+                                                <option value="1. Alto - O escopo do projeto promove diretamente o desenvolvimento regional">1. Alto - O escopo do projeto promove diretamente o desenvolvimento regional</option>
+                                                <option value="2. Moderado - O escopo do projeto promove indiretamente o desenvolvimento regional">2. Moderado - O escopo do projeto promove indiretamente o desenvolvimento regional</option>
+                                                <option value="3. Baixo - O projeto não leva em conta as necessidades e potencialidades das microrregiões.">3. Baixo - O projeto não leva em conta as necessidades e potencialidades das microrregiões.</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Atende demandas Priorizadas -->
+                                        <div class="toggle-field">
+                                             <label class="switch">
+                                                <input type="checkbox" id="relevanciaDRS" value="Sim">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <span class="toggle-label">Atende demandas Priorizadas</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Agrupamento 5: Inovação -->
+                                <div class="accordion-group">
+                                    <div class="accordion-header">
+                                        <i class="fa-solid fa-angle-down accordion-icon"></i>
+                                        <span>INOVAÇÃO</span>
+                                    </div>
+                                    <div class="accordion-body">
+                                        <!-- Grau de Inovação -->
+                                        <div class="form-field">
+                                            <label for="relevanciaInovacao">Grau</label>
+                                            <select id="relevanciaInovacao">
+                                                <option value="">Selecionar...</option>
+                                                <option value="1. Inovador, O projeto é pioneiro em gestão pública e provoca ruptura com os padrões">1. Inovador, O projeto é pioneiro em gestão pública e provoca ruptura com os padrões</option>
+                                                <option value="2. Inovador, O projeto fomenta a desburocratização e/ou digitalização de serviços e processos e melhora os serviços prestados a população.">2. Inovador, O projeto fomenta a desburocratização e/ou digitalização de serviços e processos e melhora os serviços prestados a população.</option>
+                                                <option value="3. Inovador, O projeto faz uso de metodologias e tecnologias inovadoras.">3. Inovador, O projeto faz uso de metodologias e tecnologias inovadoras.</option>
+                                                <option value="4. O projeto não fomenta a inovação.">4. O projeto não fomenta a inovação.</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Aba 3: Viabilidade -->
+                            <div class="tab-content hidden" id="pane-feasibility">
+                                
+                                <!-- Agrupamento: Critérios Orçamentários -->
+                                <div class="accordion-group expanded">
+                                    <div class="accordion-header">
+                                        <i class="fa-solid fa-angle-up accordion-icon"></i>
+                                        <span>CRITÉRIOS ORÇAMENTÁRIOS</span>
+                                    </div>
+                                     <div class="accordion-body">
+                                         <!-- Projeto tem custo (Toggle Switch) -->
+                                         <div class="toggle-field">
+                                             <label class="switch">
+                                                 <input type="checkbox" id="viabilidadeProjetoTemCusto" checked>
+                                                 <span class="slider round"></span>
+                                             </label>
+                                             <span class="toggle-label">Projeto tem custo</span>
+                                         </div>
+
+                                         <!-- Custo Previsto Total e Principal Fonte de Recursos -->
+                                        <div class="form-row-multi">
+                                            <div class="form-field col-6">
+                                                <label for="viabilidadeCustoTotal">Custo Previsto Total</label>
+                                                <input type="text" id="viabilidadeCustoTotal" placeholder="R$ 0,00">
+                                            </div>
+                                            <div class="form-field col-6">
+                                                <label for="viabilidadeFonteRecursos">Principal Fonte de Recursos</label>
+                                                <select id="viabilidadeFonteRecursos">
+                                                    <option value="">Selecionar Fonte...</option>
+                                                    <option value="Caixa do Tesouro">Caixa do Tesouro</option>
+                                                    <option value="Não se aplica">Não se aplica</option>
+                                                    <option value="Fundos">Fundos</option>
+                                                    <option value="Parceria">Parceria</option>
+                                                    <option value="Convênio">Convênio</option>
+                                                    <option value="Emenda Parlamentar">Emenda Parlamentar</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Descrição das Fontes Financeiras -->
+                                        <div class="form-field">
+                                            <label for="viabilidadeDescricaoFontes">Descrição das Fontes Financeiras</label>
+                                            <input type="text" id="viabilidadeDescricaoFontes" placeholder="Descreva de onde provêm os recursos...">
+                                        </div>
+
+                                        <!-- Status Captação e Tipo de despesa -->
+                                        <div class="form-row-multi">
+                                            <div class="form-field col-6">
+                                                <label for="viabilidadeStatusCaptacao">Status Captação</label>
+                                                <select id="viabilidadeStatusCaptacao">
+                                                    <option value="">Selecionar...</option>
+                                                    <option value="Sim">Sim</option>
+                                                    <option value="Não">Não</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-field col-6">
+                                                <label for="viabilidadeTipoDespesa">Tipo majoritário de despesa</label>
+                                                <select id="viabilidadeTipoDespesa">
+                                                    <option value="">Selecionar...</option>
+                                                    <option value="Somente corrente">Somente corrente</option>
+                                                    <option value="Somente despesa de capital">Somente despesa de capital</option>
+                                                    <option value="Mais de 50% é despesa corrente">Mais de 50% é despesa corrente</option>
+                                                    <option value="Mais de 50% é despesa de capital">Mais de 50% é despesa de capital</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Recurso do projeto são oriundos de operação de crédito ou tem previsão na LOA? -->
+                                        <div class="form-field">
+                                            <label for="viabilidadeRecursoLOA">Recurso do projeto são oriundos de operação de crédito ou tem previsão na LOA?</label>
+                                            <select id="viabilidadeRecursoLOA">
+                                                <option value="">Selecionar...</option>
+                                                <option value="1. Sim, há recursos com previsão na LOA 2023 ou de operação de crédito.">1. Sim, há recursos com previsão na LOA 2023 ou de operação de crédito.</option>
+                                                <option value="2. Não, e o projeto necessita de recursos in 2023">2. Não, e o projeto necessita de recursos em 2023</option>
+                                                <option value="3. Não, porém não há execução financeira prevista para 2023">3. Não, porém não há execução financeira prevista para 2023</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Valor previsto LOA e Ação Orçamentária -->
+                                        <div class="form-row-multi">
+                                            <div class="form-field col-6">
+                                                <label for="viabilidadeValorLOA">Qual valor previsto na LOA para o projeto?</label>
+                                                <input type="text" id="viabilidadeValorLOA" placeholder="R$ 0,00">
+                                            </div>
+                                            <div class="form-field col-6">
+                                                <label for="viabilidadeAcaoOrcamento">Ação Orçamentária</label>
+                                                <input type="text" id="viabilidadeAcaoOrcamento" placeholder="Ex: 2431">
+                                            </div>
+                                        </div>
+
+                                        <!-- Plano Orçamentário -->
+                                        <div class="form-field">
+                                            <label for="viabilidadePlanoOrcamento">Plano Orçamentário</label>
+                                            <input type="text" id="viabilidadePlanoOrcamento" placeholder="Ex: 0001">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Agrupamento: Capacidade de Execução -->
+                                <div class="accordion-group">
+                                    <div class="accordion-header">
+                                        <i class="fa-solid fa-angle-down accordion-icon"></i>
+                                        <span>CAPACIDADE DE EXECUÇÃO</span>
+                                    </div>
+                                    <div class="accordion-body">
+                                        <!-- Row de Recursos Humanos e Recursos Tecnológicos (Mesma linha) -->
+                                        <div class="form-row-multi">
+                                            <div class="form-field col-6">
+                                                <label for="viabilidadeRH">Disponibilidade de Recursos Humanos</label>
+                                                <select id="viabilidadeRH">
+                                                    <option value="">Selecionar...</option>
+                                                    <option value="Sim, a equipe necessária está integralmente disponível.">Sim, a equipe necessária está integralmente disponível.</option>
+                                                    <option value="Parcialmente, mais da metade da equipe está disponível e há necessidade de contratações.">Parcialmente, mais da metade da equipe está disponível e há necessidade de contratações.</option>
+                                                    <option value="Não, menos da metade da equipe necessária está disponível para o projeto.">Não, menos da metade da equipe necessária está disponível para o projeto.</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-field col-6">
+                                                <label for="viabilidadeTech">Disponibilidade de Recursos Tecnológicos</label>
+                                                <select id="viabilidadeTech">
+                                                    <option value="">Selecionar...</option>
+                                                    <option value="Sim">Sim</option>
+                                                    <option value="Não">Não</option>
+                                                    <option value="Não se aplica">Não se aplica</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Aba 4: Avaliação (Layout em Árvore/Accordion) -->
+                            <div class="tab-content hidden" id="pane-evaluation">
+                                <div class="eval-tree-container">
+                                    <!-- Nível 0: PROJETO -->
+                                    <div class="eval-tree-group level-0">
+                                        <div class="eval-tree-header header-level-0">
+                                            <div class="eval-tree-title">
+                                                <i class="fa-solid fa-chevron-down tree-toggle-icon"></i>
+                                                <span>PROJETO</span>
+                                            </div>
+                                            <div class="eval-badge-box">
+                                                Nota Final do Projeto: <strong id="evalNotaFinal">0,00</strong>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="eval-tree-content">
+                                            <!-- Nível 1: Nome do Projeto -->
+                                            <div class="eval-tree-group level-1">
+                                                <div class="eval-tree-header header-level-1">
+                                                    <div class="eval-tree-title">
+                                                        <i class="fa-solid fa-chevron-down tree-toggle-icon"></i>
+                                                        <i class="fa-solid fa-list-check title-icon"></i>
+                                                        <span id="evalProjectTitleName">Nome do Projeto</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="eval-tree-content">
+                                                    <!-- Nível 2: AVALIAÇÃO DE RELEVÂNCIA -->
+                                                    <div class="eval-tree-group level-2">
+                                                        <div class="eval-tree-header header-level-2">
+                                                            <div class="eval-tree-title">
+                                                                <i class="fa-solid fa-chevron-down tree-toggle-icon"></i>
+                                                                <span>AVALIAÇÃO DE RELEVÂNCIA</span>
+                                                            </div>
+                                                            <div class="eval-badge-box">
+                                                                Total Relevância: <strong id="evalTotalRelevancia">0</strong>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="eval-tree-content">
+                                                            <!-- Items de Relevância -->
+                                                            <div class="eval-tree-row level-3">
+                                                                <span class="row-label">Alinhamento Estratégico</span>
+                                                                <span class="row-value">Nota: <strong id="evalNotaAlinhamento">0</strong></span>
+                                                            </div>
+                                                            <div class="eval-tree-row level-3">
+                                                                <span class="row-label">Criticidade</span>
+                                                                <span class="row-value">Nota: <strong id="evalNotaCriticidade">0</strong></span>
+                                                            </div>
+                                                            <div class="eval-tree-row level-3">
+                                                                <span class="row-label">RDS - Redução de Desigualdades Sociais</span>
+                                                                <span class="row-value">Nota: <strong id="evalNotaRDS">0</strong></span>
+                                                            </div>
+                                                            <div class="eval-tree-row level-3">
+                                                                <span class="row-label">RDR - Redução de Desigualdades Regionais</span>
+                                                                <span class="row-value">Nota: <strong id="evalNotaRDR">0</strong></span>
+                                                            </div>
+                                                            <div class="eval-tree-row level-3">
+                                                                <span class="row-label">Inovação</span>
+                                                                <span class="row-value">Nota: <strong id="evalNotaInovacao">0</strong></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Nível 2: AVALIAÇÃO DE VIABILIDADE -->
+                                                    <div class="eval-tree-group level-2">
+                                                        <div class="eval-tree-header header-level-2">
+                                                            <div class="eval-tree-title">
+                                                                <i class="fa-solid fa-chevron-down tree-toggle-icon"></i>
+                                                                <span>AVALIAÇÃO DE VIABILIDADE</span>
+                                                            </div>
+                                                            <div class="eval-badge-box">
+                                                                Total Viabilidade: <strong id="evalMediaImplementacao">0</strong>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="eval-tree-content">
+                                                            <!-- Items de Viabilidade -->
+                                                            <div class="eval-tree-row level-3">
+                                                                <span class="row-label">Critérios Orçamentários</span>
+                                                                <span class="row-value">Nota: <strong id="evalNotaOrcamento">0</strong></span>
+                                                            </div>
+                                                            <div class="eval-tree-row level-3">
+                                                                <span class="row-label">Capacidade de Execução</span>
+                                                                <span class="row-value">Nota: <strong id="evalNotaExecucao">0</strong></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Seção: Selecionar Pré-projeto -->
+                                <div class="pre-projeto-container" style="margin-top: 24px;">
+                                    <!-- Toggle: Selecionar Pré-projeto -->
+                                    <div class="pre-projeto-header-toggle" style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="evalSelecionarPreProjeto">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                        <label for="evalSelecionarPreProjeto" style="font-weight: 600; font-size: 14px; color: #1e293b; cursor: pointer;">
+                                            Selecionar Pré-projeto
+                                        </label>
+                                    </div>
+
+                                    <!-- Campos de Pré-projeto (Habilitados apenas quando marcado) -->
+                                    <div class="pre-projeto-body disabled-section" id="preProjetoBody">
+                                        <div class="form-row-multi" style="margin-bottom: 16px;">
+                                            <!-- Campo 1: Planos Disponíveis -->
+                                            <div class="form-field col-6">
+                                                <label for="evalPlanosDisponiveis" style="font-weight: 600; color: #334155;">Planos Disponíveis</label>
+                                                <select id="evalPlanosDisponiveis" disabled>
+                                                    <option value="">Selecionar...</option>
+                                                    <option value="Realiza +">Realiza +</option>
+                                                    <option value="Cesan">Cesan</option>
+                                                    <option value="Direção Geral">Direção Geral</option>
+                                                    <option value="PCIES">PCIES</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo 2: Onde no plano? (Estrutura Árvore idêntica ao print) -->
+                                        <div class="form-field" style="margin-bottom: 16px;">
+                                            <label style="font-weight: 600; color: #334155; margin-bottom: 8px; display: block;">Onde no plano?</label>
+                                            
+                                            <div class="onde-no-plano-tree" id="ondeNoPlanoTree">
+                                                <!-- Conteúdo gerado dinamicamente via JS com base no plano selecionado -->
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo 3: Observações -->
+                                        <div class="form-field">
+                                            <label for="evalObservacoesPreProjeto" style="font-weight: 600; color: #334155;">Observações</label>
+                                            <textarea id="evalObservacoesPreProjeto" class="form-control" rows="3" placeholder="Digite aqui as observações referentes ao pré-projeto..." disabled style="width: 100%; border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px; font-family: inherit; font-size: 13px; outline: none;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ABAS ESTRATÉGICAS EXCLUSIVAS DA VISÃO PRÉ-PROJETOS -->
+                                <!-- Aba: Etapas -->
+                                <div class="tab-content hidden" id="pane-etapas">
+                                    <!-- Barra Superior: Exibir Cancelado & Filtros com Botão + -->
+                                    <div class="etapas-filter-bar">
+                                        <div class="etapas-filter-left">
+                                            <label class="toggle-switch-sm">
+                                                <input type="checkbox" id="toggleExibirCanceladosEtapas">
+                                                <span class="toggle-slider-sm"></span>
+                                            </label>
+                                            <span class="etapas-toggle-label">Exibir cancelado</span>
+                                        </div>
+                                        <div class="etapas-filter-right">
+                                            <div class="exibir-selector-sm">
+                                                <span>Exibir</span>
+                                                <select id="selectExibirEtapas">
+                                                    <option value="Todos" selected>Todos</option>
+                                                    <option value="Ativos">Ativos</option>
+                                                    <option value="Cancelados">Cancelados</option>
+                                                </select>
+                                            </div>
+                                            <button type="button" class="btn-add-etapa-square" id="btnAddEtapaTop" title="Adicionar Etapa">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Contêiner de Lista de Etapas -->
+                                    <div class="etapas-list-container" id="etapasListContainer">
+                                        <!-- Etapas dinâmicas -->
+                                    </div>
+
+                                    <!-- Card Grande de Adição (+ centralizado) -->
+                                    <div class="etapa-add-big-card" id="btnAddNewEtapaCard" title="Clique para adicionar nova etapa">
+                                        <i class="fa-solid fa-plus plus-icon-lg"></i>
+                                    </div>
+
+                                    <!-- Paginação Inferior (<< < 1 of 1 > >>) -->
+                                    <div class="etapas-pagination-container">
+                                        <button type="button" class="page-btn-sm" id="btnEtapasFirst" disabled><i class="fa-solid fa-angles-left"></i></button>
+                                        <button type="button" class="page-btn-sm" id="btnEtapasPrev" disabled><i class="fa-solid fa-angle-left"></i></button>
+                                        <div class="page-selector-sm">
+                                            <select id="selectEtapasPage">
+                                                <option value="1">1 of 1</option>
+                                            </select>
+                                        </div>
+                                        <button type="button" class="page-btn-sm" id="btnEtapasNext" disabled><i class="fa-solid fa-angle-right"></i></button>
+                                        <button type="button" class="page-btn-sm" id="btnEtapasLast" disabled><i class="fa-solid fa-angles-right"></i></button>
+                                    </div>
+                                </div>
+
+                                <!-- Aba: Partes Interessadas -->
+                                <div class="tab-content hidden" id="pane-partes-interessadas">
+                                    <div class="pane-empty-placeholder">
+                                        <i class="fa-solid fa-users-gear"></i>
+                                        <h4>Partes Interessadas e Permissões</h4>
+                                        <p>Gerencie os participantes, gestores e permissões de acesso ao pré-projeto.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Aba: Centros de Custo -->
+                                <div class="tab-content hidden" id="pane-centros-custo">
+                                    <div class="pane-empty-placeholder">
+                                        <i class="fa-solid fa-calculator"></i>
+                                        <h4>Centros de Custo</h4>
+                                        <p>Estrutura financeira e alocações de centro de custo do pré-projeto.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Aba: Indicadores -->
+                                <div class="tab-content hidden" id="pane-indicadores">
+                                    <div class="pane-empty-placeholder">
+                                        <i class="fa-solid fa-chart-line"></i>
+                                        <h4>Indicadores</h4>
+                                        <p>Acompanhamento de metas, métricas e KPIs associados ao pré-projeto.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Aba: Linhas de base -->
+                                <div class="tab-content hidden" id="pane-linhas-base">
+                                    <div class="pane-empty-placeholder">
+                                        <i class="fa-solid fa-code-branch"></i>
+                                        <h4>Linhas de Base</h4>
+                                        <p>Histórico de aprovações e snapshots do cronograma/planejamento.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Aba: Riscos -->
+                                <div class="tab-content hidden" id="pane-riscos">
+                                    <div class="pane-empty-placeholder">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                        <h4>Riscos</h4>
+                                        <p>Matriz de riscos, impactos e planos de mitigação.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Aba: Ocorrências -->
+                                <div class="tab-content hidden" id="pane-ocorrencias">
+                                    <div class="pane-empty-placeholder">
+                                        <i class="fa-solid fa-clipboard-list"></i>
+                                        <h4>Ocorrências</h4>
+                                        <p>Registro de intercorrências e notas de acompanhamento.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Aba: Processos -->
+                                <div class="tab-content hidden" id="pane-processos">
+                                    <div class="pane-empty-placeholder">
+                                        <i class="fa-solid fa-diagram-project"></i>
+                                        <h4>Processos</h4>
+                                        <p>Mapeamento de processos e fluxos de trabalho do pré-projeto.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Aba: Diário -->
+                                <div class="tab-content hidden" id="pane-diario">
+                                    <div class="pane-empty-placeholder">
+                                        <i class="fa-solid fa-book"></i>
+                                        <h4>Diário</h4>
+                                        <p>Apontamentos e registros diários de evolução.</p>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+
+                    <!-- Barra de Ações Salvar / Desfazer (Alinhados à Esquerda) -->
+                    <div class="form-page-actions-left">
+                        <button type="submit" class="btn-page-save-left">Salvar</button>
+                        <button type="button" class="btn-page-undo-left" id="btnPageCancel">
+                            <i class="fa-solid fa-rotate-left"></i> Desfazer
+                        </button>
+                    </div>
+                </form>
+            </main>
+
+    <!-- Context Menu de Ações (3 Pontos) -->
+    <div class="context-menu hidden" id="contextMenu">
+        <ul>
+            <li id="ctxMenuEditar"><i class="fa-solid fa-pen-to-square"></i> Editar Projeto</li>
+            <li id="ctxMenuToggleStatus"><i class="fa-solid fa-ban"></i> Alterar Status (Ativo/Cancelado)</li>
+            <li class="danger" id="ctxMenuExcluir"><i class="fa-solid fa-trash-can"></i> Excluir do Inventário</li>
+        </ul>
+    </div>
+
+    <!-- Modal: Selecionar Posição no Plano (Projeto Existente) -->
+    <div class="modal-overlay hidden" id="modalProjetoExistente">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-briefcase" style="color: #0d9488; margin-right: 8px;"></i> Selecionar Posição no Plano</h3>
+                <button type="button" class="modal-close-btn" id="btnCloseModalProjetoExistente">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 13px; color: #64748b; margin-bottom: 12px;">
+                    Selecione em qual posição da estrutura do plano você deseja buscar / vincular o projeto existente:
+                </p>
+                <div class="onde-no-plano-tree" id="modalOndeNoPlanoTree">
+                    <!-- Árvore gerada dinamicamente via JS -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modal-cancel" id="btnCancelModalProjetoExistente">Cancelar</button>
+                <button type="button" class="btn-modal-confirm" id="btnConfirmModalProjetoExistente">Selecionar</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
