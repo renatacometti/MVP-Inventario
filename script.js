@@ -793,11 +793,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 3. Recurso LOA (Max 1)
             const loaVal = recursoLOASelect.value;
-            if (loaVal && !loaVal.includes("2. Não, e o projeto necessita")) {
+            if (loaVal.includes("Sim, há recursos com previsão na LOA")) {
                 score += 1;
+            } else if (loaVal.includes("Não, porém não há execução financeira")) {
+                score += 0.5;
             }
             
-            document.getElementById('evalNotaOrcamento').textContent = Math.min(score, 3);
+            const totalOrcamento = Math.min(score, 3);
+            document.getElementById('evalNotaOrcamento').textContent = totalOrcamento.toString().replace('.', ',');
         }
         const evalSummaryOrcamento = document.getElementById('evalSummaryOrcamento');
         if (evalSummaryOrcamento) {
