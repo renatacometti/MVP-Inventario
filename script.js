@@ -786,8 +786,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 2. Tipo de Despesa (Max 1)
             const tipoDespesa = tipoDespesaSelect.value;
-            if (tipoDespesa === "Somente corrente" || 
-                tipoDespesa === "Somente despesa de capital" || 
+            if (tipoDespesa === "Somente despesa de capital" || 
                 tipoDespesa === "Mais de 50% é despesa de capital") {
                 score += 1;
             }
