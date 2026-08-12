@@ -481,6 +481,13 @@
                                     <div class="accordion-header">
                                         <i class="fa-solid fa-angle-down accordion-icon"></i>
                                         <span>RDS - REDUÇÃO DE DESIGUALDADES SOCIAIS</span>
+                                        <div class="accordion-header-toggle-wrap">
+                                            <label class="switch accordion-header-toggle" title="Atende programa de RDS">
+                                                <input type="checkbox" id="relevanciaAgendaMulher" value="Sim">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <span class="toggle-label">Atende programa de RDS</span>
+                                        </div>
                                     </div>
                                     <div class="accordion-body">
                                         <!-- Redução Desigualdades -->
@@ -493,15 +500,6 @@
                                                 <option value="3. Baixo - O projeto impacta indiretamente a população em vulnerabilidade social.">3. Baixo - O projeto impacta indiretamente a população em vulnerabilidade social.</option>
                                             </select>
                                         </div>
-
-                                        <!-- Atende programa de RDS -->
-                                        <div class="toggle-field">
-                                            <label class="switch">
-                                                <input type="checkbox" id="relevanciaAgendaMulher" value="Sim">
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <span class="toggle-label">Atende programa de RDS</span>
-                                        </div>
                                     </div>
                                 </div>
 
@@ -510,6 +508,13 @@
                                     <div class="accordion-header">
                                         <i class="fa-solid fa-angle-down accordion-icon"></i>
                                         <span>RDR - REDUÇÃO DE DESIGUALDADES REGIONAIS</span>
+                                        <div class="accordion-header-toggle-wrap">
+                                            <label class="switch accordion-header-toggle" title="Atende demandas Priorizadas">
+                                                <input type="checkbox" id="relevanciaDRS" value="Sim">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <span class="toggle-label">Atende demandas Priorizadas</span>
+                                        </div>
                                     </div>
                                     <div class="accordion-body">
                                         <!-- Foco em RDR -->
@@ -522,15 +527,6 @@
                                                 <option value="3. Baixo - O projeto não leva em conta as necessidades e potencialidades das microrregiões.">3. Baixo - O projeto não leva em conta as necessidades e potencialidades das microrregiões.</option>
                                             </select>
                                         </div>
-
-                                        <!-- Atende demandas Priorizadas -->
-                                        <div class="toggle-field">
-                                             <label class="switch">
-                                                <input type="checkbox" id="relevanciaDRS" value="Sim">
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <span class="toggle-label">Atende demandas Priorizadas</span>
-                                        </div>
                                     </div>
                                 </div>
 
@@ -539,6 +535,13 @@
                                     <div class="accordion-header">
                                         <i class="fa-solid fa-angle-down accordion-icon"></i>
                                         <span>INOVAÇÃO</span>
+                                        <div class="accordion-header-toggle-wrap">
+                                            <label class="switch accordion-header-toggle" title="O projeto fomenta a inovação">
+                                                <input type="checkbox" id="relevanciaFomentaInovacao" value="Sim">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <span class="toggle-label">O projeto fomenta a inovação</span>
+                                        </div>
                                     </div>
                                     <div class="accordion-body">
                                         <!-- Grau de Inovação -->
@@ -549,7 +552,6 @@
                                                 <option value="1. Inovador, O projeto é pioneiro em gestão pública e provoca ruptura com os padrões">1. Inovador, O projeto é pioneiro em gestão pública e provoca ruptura com os padrões</option>
                                                 <option value="2. Inovador, O projeto fomenta a desburocratização e/ou digitalização de serviços e processos e melhora os serviços prestados a população.">2. Inovador, O projeto fomenta a desburocratização e/ou digitalização de serviços e processos e melhora os serviços prestados a população.</option>
                                                 <option value="3. Inovador, O projeto faz uso de metodologias e tecnologias inovadoras.">3. Inovador, O projeto faz uso de metodologias e tecnologias inovadoras.</option>
-                                                <option value="4. O projeto não fomenta a inovação.">4. O projeto não fomenta a inovação.</option>
                                             </select>
                                         </div>
                                     </div>
@@ -565,17 +567,15 @@
                                     <div class="accordion-header">
                                         <i class="fa-solid fa-angle-up accordion-icon"></i>
                                         <span>CRITÉRIOS ORÇAMENTÁRIOS</span>
+                                        <div class="accordion-header-toggle-wrap">
+                                            <label class="switch accordion-header-toggle" title="Projeto tem custo">
+                                                <input type="checkbox" id="viabilidadeProjetoTemCusto" checked>
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <span class="toggle-label">Projeto tem custo</span>
+                                        </div>
                                     </div>
                                      <div class="accordion-body">
-                                         <!-- Projeto tem custo (Toggle Switch) -->
-                                         <div class="toggle-field">
-                                             <label class="switch">
-                                                 <input type="checkbox" id="viabilidadeProjetoTemCusto" checked>
-                                                 <span class="slider round"></span>
-                                             </label>
-                                             <span class="toggle-label">Projeto tem custo</span>
-                                         </div>
-
                                          <!-- Custo Previsto Total e Principal Fonte de Recursos -->
                                         <div class="form-row-multi">
                                             <div class="form-field col-6">
@@ -947,14 +947,14 @@
                                     </div>
                                 </div>
                         </div>
-                    </div>
 
-                    <!-- Barra de Ações Salvar / Desfazer (Alinhados à Esquerda) -->
-                    <div class="form-page-actions-left">
-                        <button type="submit" class="btn-page-save-left">Salvar</button>
-                        <button type="button" class="btn-page-undo-left" id="btnPageCancel">
-                            <i class="fa-solid fa-rotate-left"></i> Desfazer
-                        </button>
+                        <!-- Barra de Ações Salvar / Desfazer (Alinhados à Esquerda) -->
+                        <div class="form-page-actions-left">
+                            <button type="submit" class="btn-page-save-left">Salvar</button>
+                            <button type="button" class="btn-page-undo-left" id="btnPageCancel">
+                                <i class="fa-solid fa-rotate-left"></i> Desfazer
+                            </button>
+                        </div>
                     </div>
                 </form>
             </main>

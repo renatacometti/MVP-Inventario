@@ -353,6 +353,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 el.disabled = !hasCost;
             }
         });
+        const group = toggleProjetoTemCusto.closest('.accordion-group');
+        if (group) {
+            if (hasCost) group.classList.remove('accordion-disabled');
+            else group.classList.add('accordion-disabled');
+        }
     }
 
     if (toggleProjetoTemCusto) {
@@ -713,11 +718,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const rdsVal = document.getElementById('relevanciaReducaoDesigualdade').value;
         const rdsToggle = document.getElementById('relevanciaAgendaMulher').checked;
         let scoreRDS = 0;
-        if (rdsVal.includes("Alto")) scoreRDS += 1;
-        else if (rdsVal.includes("Moderado")) scoreRDS += 0.5;
-        else if (rdsVal.includes("Baixo")) scoreRDS += 0;
-
-        if (rdsToggle) scoreRDS += 1;
+        if (rdsToggle) {
+            scoreRDS += 1;
+            if (rdsVal.includes("Alto")) scoreRDS += 1;
+            else if (rdsVal.includes("Moderado")) scoreRDS += 0.5;
+            else if (rdsVal.includes("Baixo")) scoreRDS += 0;
+        }
 
         const badgeRDS = document.getElementById('evalNotaRDS');
         if (badgeRDS) {
@@ -733,11 +739,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const rdrVal = document.getElementById('relevanciaReducaoRegional').value;
         const rdrToggle = document.getElementById('relevanciaDRS').checked;
         let scoreRDR = 0;
-        if (rdrVal.includes("Alto")) scoreRDR += 1;
-        else if (rdrVal.includes("Moderado")) scoreRDR += 0.5;
-        else if (rdrVal.includes("Baixo")) scoreRDR += 0;
-
-        if (rdrToggle) scoreRDR += 1;
+        if (rdrToggle) {
+            scoreRDR += 1;
+            if (rdrVal.includes("Alto")) scoreRDR += 1;
+            else if (rdrVal.includes("Moderado")) scoreRDR += 0.5;
+            else if (rdrVal.includes("Baixo")) scoreRDR += 0;
+        }
 
         const badgeRDR = document.getElementById('evalNotaRDR');
         if (badgeRDR) {
@@ -751,13 +758,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 5. Inovação Summary & Auto-Calculation (0 or 2)
         const inovacaoVal = document.getElementById('relevanciaInovacao').value;
+        const inovacaoToggle = document.getElementById('relevanciaFomentaInovacao') ? document.getElementById('relevanciaFomentaInovacao').checked : false;
         let scoreInovacao = 0;
-        if (inovacaoVal) {
-            if (inovacaoVal.includes("Não")) {
-                scoreInovacao = 0;
-            } else {
-                scoreInovacao = 2;
-            }
+        if (inovacaoToggle) {
+            scoreInovacao = 2;
+        } else {
+            scoreInovacao = 0;
         }
 
         const badgeInovacao = document.getElementById('evalNotaInovacao');
@@ -767,7 +773,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const evalSummaryInovacao = document.getElementById('evalSummaryInovacao');
         if (evalSummaryInovacao) {
-            evalSummaryInovacao.innerHTML = inovacaoVal ? `<strong>Grau:</strong> ${escapeHtml(inovacaoVal)}` : 'Nenhum grau selecionado.';
+            evalSummaryInovacao.innerHTML = inovacaoToggle 
+                ? `<strong>Status:</strong> Ativado <br> <strong>Grau:</strong> ${escapeHtml(inovacaoVal || 'Não selecionado')}`
+                : `<strong>Status:</strong> Desativado`;
         }
 
         // 6. Critérios Orçamentários Summary & Auto-Calculation
@@ -1255,9 +1263,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnAddNewEtapaCard) btnAddNewEtapaCard.addEventListener('click', promptAddEtapa);
 
     // LÓGICA DE AGRUPAMENTOS COLAPSÁVEIS (ACCORDIONS)
+    function updateRelevanciaAccordionStates() {
+        const groups = document.querySelectorAll('.accordion-group');
+        groups.forEach(group => {
+            const toggle = group.querySelector('.accordion-header input[type="checkbox"]');
+            if (toggle) {
+                const isChecked = toggle.checked;
+                const fields = group.querySelectorAll('.accordion-body select, .accordion-body input, .accordion-body textarea, .accordion-body button');
+                fields.forEach(field => {
+                    field.disabled = !isChecked;
+                });
+                if (isChecked) {
+                    group.classList.remove('accordion-disabled');
+                } else {
+                    group.classList.add('accordion-disabled');
+                }
+            }
+        });
+    }
+
     const accordionHeaders = document.querySelectorAll('.accordion-header');
     accordionHeaders.forEach(header => {
-        header.addEventListener('click', () => {
+        header.addEventListener('click', (e) => {
+            if (e.target.closest('.switch') || e.target.closest('input') || e.target.closest('.accordion-header-toggle-wrap')) return;
             const group = header.parentElement;
             group.classList.toggle('expanded');
             
@@ -1267,6 +1295,14 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 icon.className = 'fa-solid fa-angle-down accordion-icon';
             }
+        });
+    });
+
+    const accordionToggles = document.querySelectorAll('.accordion-header input[type="checkbox"]');
+    accordionToggles.forEach(toggle => {
+        toggle.addEventListener('change', () => {
+            updateRelevanciaAccordionStates();
+            updateEvaluationSummariesAndAverages();
         });
     });
 
@@ -1541,6 +1577,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('relevanciaReducaoRegional').value = proj.relevanciaReducaoRegional || '';
                 document.getElementById('relevanciaDRS').checked = (proj.relevanciaDRS === 'Sim');
                 document.getElementById('relevanciaInovacao').value = proj.relevanciaInovacao || '';
+                if (document.getElementById('relevanciaFomentaInovacao')) {
+                    document.getElementById('relevanciaFomentaInovacao').checked = proj.relevanciaFomentaInovacao !== undefined ? (proj.relevanciaFomentaInovacao === 'Sim') : (proj.relevanciaInovacao ? !proj.relevanciaInovacao.includes('Não') : false);
+                }
+                updateRelevanciaAccordionStates();
 
                  // Aba 3
                  if (toggleProjetoTemCusto) {
@@ -1619,6 +1659,10 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('relevanciaReducaoRegional').value = '';
             document.getElementById('relevanciaDRS').checked = false;
             document.getElementById('relevanciaInovacao').value = '';
+            if (document.getElementById('relevanciaFomentaInovacao')) {
+                document.getElementById('relevanciaFomentaInovacao').checked = false;
+            }
+            updateRelevanciaAccordionStates();
 
             if (toggleProjetoTemCusto) {
                 toggleProjetoTemCusto.checked = true;
@@ -1701,6 +1745,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const relevanciaReducaoRegional = document.getElementById('relevanciaReducaoRegional').value;
         const relevanciaDRS = document.getElementById('relevanciaDRS').checked ? 'Sim' : 'Não';
         const relevanciaInovacao = document.getElementById('relevanciaInovacao').value;
+        const relevanciaFomentaInovacao = document.getElementById('relevanciaFomentaInovacao') && document.getElementById('relevanciaFomentaInovacao').checked ? 'Sim' : 'Não';
 
         // Dados Aba 3
         const viabilidadeProjetoTemCusto = toggleProjetoTemCusto ? toggleProjetoTemCusto.checked : true;
@@ -1777,6 +1822,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 proj.relevanciaReducaoRegional = relevanciaReducaoRegional;
                 proj.relevanciaDRS = relevanciaDRS;
                 proj.relevanciaInovacao = relevanciaInovacao;
+                proj.relevanciaFomentaInovacao = relevanciaFomentaInovacao;
 
                 // Aba 3
                 proj.viabilidadeProjetoTemCusto = viabilidadeProjetoTemCusto;
@@ -1841,6 +1887,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 relevanciaReducaoRegional,
                 relevanciaDRS,
                 relevanciaInovacao,
+                relevanciaFomentaInovacao,
                 // Aba 3
                 viabilidadeProjetoTemCusto,
                 viabilidadeCustoTotal,
