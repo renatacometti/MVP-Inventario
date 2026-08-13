@@ -1310,8 +1310,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const groups = document.querySelectorAll('.accordion-group');
         groups.forEach((group) => {
             const icon = group.querySelector('.accordion-icon');
-            group.classList.remove('expanded');
-            if (icon) icon.className = 'fa-solid fa-angle-down accordion-icon';
+            if (group.closest('#pane-relevance') || group.closest('#pane-feasibility')) {
+                group.classList.add('expanded');
+                if (icon) icon.className = 'fa-solid fa-angle-up accordion-icon';
+            } else {
+                group.classList.remove('expanded');
+                if (icon) icon.className = 'fa-solid fa-angle-down accordion-icon';
+            }
         });
     }
 
